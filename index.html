@@ -3,31 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منظم الختمة القرآنية المتطور</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>منظم الختمة القرآنية - التصميم المطور</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root {
-            --primary: #00695c;
-            --secondary: #e0f2f1;
-            --accent: #fdd835;
+            --primary: #2c3e50;
+            --header-bg: #8fbae8; /* لون أزرق مشابه للصورة */
+            --week-bg: #dae8fc;   /* لون خلفية الأسابيع */
+            --accent: #d5e8d4;    /* لون أخضر فاتح للصفوف */
             --text: #333;
             --white: #fff;
-            --danger: #d32f2f;
-            --border: #ddd;
+            --border: #6c8ebf;
         }
 
         * { box-sizing: border-box; outline: none; }
         
         body {
             font-family: 'Tajawal', sans-serif;
-            background-color: #f1f5f4;
+            background-color: #f4f7f6;
             margin: 0;
             padding: 20px;
             color: var(--text);
         }
 
+        /* --- تصميم الحاويات --- */
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -35,365 +36,411 @@
             border-radius: 12px;
             box-shadow: 0 4px 20px rgba(0,0,0,0.05);
             padding-bottom: 20px;
+            overflow: hidden;
         }
 
-        /* --- Header --- */
         header {
-            background: linear-gradient(135deg, var(--primary), #004d40);
+            background: linear-gradient(135deg, #1e5799, #2989d8);
             color: var(--white);
-            padding: 25px;
-            border-radius: 12px 12px 0 0;
+            padding: 20px;
             text-align: center;
         }
 
         .date-info-box {
-            background: rgba(255,255,255,0.1);
-            padding: 15px;
-            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+            gap: 40px;
             margin-top: 15px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            text-align: center;
-            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.15);
+            padding: 10px;
+            border-radius: 8px;
         }
 
-        .date-info-box div h3 { margin: 0 0 5px 0; font-size: 0.9em; opacity: 0.9; }
-        .date-info-box div p { margin: 0; font-weight: bold; font-size: 1.1em; }
-
-        /* --- Controls --- */
+        /* --- الأزرار والتحكم --- */
         .controls {
             padding: 20px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
             gap: 15px;
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
+            border-bottom: 1px solid #eee;
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 8px 16px;
             border: none;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
+            font-family: 'Tajawal';
             display: inline-flex;
             align-items: center;
-            gap: 8px;
+            gap: 5px;
             transition: 0.2s;
-            font-family: 'Tajawal';
-            text-decoration: none;
-            font-size: 0.9rem;
         }
 
-        .btn-primary { background: var(--primary); color: white; }
-        .btn-primary:hover { background: #004d40; }
-        
-        .btn-outline { background: transparent; border: 1px solid var(--primary); color: var(--primary); }
-        .btn-danger { background: #ffebee; color: var(--danger); }
-        .btn-wa { background: #25D366; color: white; }
-        .btn-pdf { background: #546e7a; color: white; }
+        .btn-primary { background: #2989d8; color: white; }
+        .btn-success { background: #25D366; color: white; }
+        .btn-danger { background: #e74c3c; color: white; }
+        .btn-pdf { background: #34495e; color: white; }
+        .btn:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        /* --- Table --- */
+        /* --- الجدول الرئيسي --- */
         .table-wrap { overflow-x: auto; padding: 20px; }
+        table.main-table { width: 100%; border-collapse: collapse; min-width: 800px; }
+        table.main-table th { background: #eee; padding: 12px; text-align: right; }
+        table.main-table td { padding: 10px; border-bottom: 1px solid #ddd; }
         
-        table { width: 100%; border-collapse: collapse; min-width: 800px; }
-        thead { background: var(--secondary); color: var(--primary); }
-        th, td { padding: 12px 15px; text-align: right; border-bottom: 1px solid #eee; }
-        th { font-weight: 700; white-space: nowrap; }
-        
-        .juz-tag {
-            background: var(--accent);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 0.9em;
-            color: #555;
+        .juz-badge {
+            background: #2989d8; color: white;
+            padding: 2px 8px; border-radius: 12px; font-size: 0.9em;
         }
 
-        /* --- Modal (Popup) --- */
+        /* --- تصميم جدول المعاينة (مثل الصورة) --- */
+        #previewModal .modal { max-width: 800px; width: 95%; padding: 0; }
+        
+        .schedule-container {
+            border: 2px solid var(--border);
+            background: white;
+            color: black;
+            font-size: 14px;
+        }
+
+        .schedule-header {
+            background: var(--header-bg);
+            padding: 15px;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .schedule-header h2 { margin: 0 0 5px 0; color: #000; font-size: 1.4em; }
+        .reader-name-box {
+            background: white;
+            border: 2px solid var(--primary);
+            padding: 5px 20px;
+            display: inline-block;
+            font-weight: bold;
+            font-size: 1.2em;
+            margin-top: 5px;
+            min-width: 200px;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+        .schedule-table th {
+            background: #6c8ebf;
+            color: white;
+            padding: 8px;
+            border: 1px solid var(--border);
+        }
+
+        .schedule-table td {
+            border: 1px solid var(--border);
+            padding: 6px;
+        }
+
+        /* تلوين الأسابيع */
+        .week-cell {
+            background-color: var(--week-bg);
+            font-weight: bold;
+            vertical-align: middle;
+            writing-mode: vertical-rl; /* نص عمودي للأسابيع */
+            transform: rotate(180deg);
+        }
+
+        .schedule-table tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        .schedule-footer {
+            padding: 15px;
+            background: #f1f1f1;
+            border-top: 2px solid var(--border);
+            font-size: 0.9em;
+        }
+
+        .footer-boxes {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .info-badge {
+            background: #2c3e50;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+
+        .notes {
+            text-align: right;
+            border-top: 1px dashed #999;
+            padding-top: 10px;
+            line-height: 1.6;
+        }
+
+        /* --- Modals --- */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.5);
+            background: rgba(0,0,0,0.6);
             display: none;
             justify-content: center;
             align-items: center;
-            z-index: 1000;
+            z-index: 999;
+            overflow-y: auto;
+            padding: 20px 0;
         }
 
         .modal {
             background: white;
-            padding: 25px;
-            border-radius: 10px;
+            border-radius: 8px;
+            padding: 20px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             position: relative;
-            max-height: 90vh;
-            overflow-y: auto;
         }
 
-        .modal h2 { margin-top: 0; color: var(--primary); }
-        
         .form-group { margin-bottom: 15px; }
         .form-group label { display: block; margin-bottom: 5px; font-weight: bold; }
         .form-group input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; }
 
-        .modal-footer {
-            margin-top: 20px;
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
+        /* إخفاء العناصر عند الطباعة */
+        @media print {
+            body * { visibility: hidden; }
+            #previewContent, #previewContent * { visibility: visible; }
+            #previewContent { position: absolute; left: 0; top: 0; width: 100%; }
         }
-
-        /* --- Action Menu --- */
-        .action-cell { display: flex; gap: 5px; flex-wrap: wrap; }
-        .icon-btn {
-            padding: 6px;
-            border-radius: 4px;
-            border: 1px solid transparent;
-            cursor: pointer;
-            background: #f5f5f5;
-        }
-        .icon-btn:hover { background: #e0e0e0; }
-
-        /* --- Preview Table Style --- */
-        #previewTable { width: 100%; font-size: 0.9em; }
-        #previewTable th { background: #eee; }
-        #previewTable td { border-bottom: 1px solid #eee; }
-
     </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>📖 نظام الختمة القرآنية الميسرة</h1>
-        
+        <h1>📖 نظام الختمة القرآنية</h1>
         <div class="date-info-box">
             <div>
-                <h3>تاريخ البداية</h3>
-                <p id="startDateDisplay">--</p>
-                <small id="startDateHijri">--</small>
+                <small>بداية الختمة</small>
+                <div id="headerStartDate" style="font-weight:bold">--</div>
             </div>
             <div>
-                <h3>تاريخ الختمة (النهاية)</h3>
-                <p id="endDateDisplay">--</p>
-                <small id="endDateHijri">--</small>
+                <small>نهاية الختمة</small>
+                <div id="headerEndDate" style="font-weight:bold">--</div>
             </div>
         </div>
     </header>
 
     <div class="controls" data-html2canvas-ignore="true">
         <div style="display: flex; align-items: center; gap: 10px;">
-            <label style="font-weight: bold;">تغيير تاريخ البدء:</label>
-            <input type="date" id="settingsStartDate" style="padding: 5px; border-radius: 4px; border:1px solid #ccc;" onchange="updateDates()">
+            <strong>تاريخ البدء:</strong>
+            <input type="date" id="globalStartDate" onchange="updateGlobalDate()" style="padding: 5px;">
         </div>
         <div>
-            <button class="btn btn-primary" onclick="openAddModal()">+ إضافة قارئ جديد</button>
-            <button class="btn btn-pdf" onclick="exportTodayPDF()">📄 تحميل جدول اليوم</button>
+            <button class="btn btn-primary" onclick="openAddModal()">+ إضافة قارئ</button>
+            <button class="btn btn-pdf" onclick="exportMainTable()">📄 قائمة اليوم</button>
         </div>
     </div>
 
     <div class="table-wrap" id="mainTableArea">
-        <div style="text-align: center; display: none;" id="pdfHeader">
-            <h2>جدول الختمة اليومية</h2>
-            <p id="pdfDateLine"></p>
+        <div style="text-align: center; display: none;" id="dailyPdfHeader">
+            <h2>قائمة القراءة اليومية</h2>
+            <p id="dailyPdfDate"></p>
         </div>
 
-        <table>
+        <table class="main-table">
             <thead>
                 <tr>
                     <th>#</th>
                     <th>الاسم</th>
                     <th>رقم الهاتف</th>
-                    <th>الجزء الحالي (اليوم)</th>
-                    <th data-html2canvas-ignore="true">إجراءات</th>
+                    <th>الجزء اليوم</th>
+                    <th data-html2canvas-ignore="true">الإجراءات</th>
                 </tr>
             </thead>
-            <tbody id="usersTableBody">
-                </tbody>
+            <tbody id="usersTableBody"></tbody>
         </table>
     </div>
 </div>
 
 <div class="modal-overlay" id="userModal">
     <div class="modal">
-        <h2 id="modalTitle">تسجيل بيانات قارئ</h2>
+        <h3 id="modalTitle" style="margin-top:0; color:var(--primary)">بيانات القارئ</h3>
         <input type="hidden" id="editIndex">
         
         <div class="form-group">
             <label>الاسم الثلاثي:</label>
-            <input type="text" id="inputName" placeholder="محمد أحمد...">
+            <input type="text" id="inputName" placeholder="اكتب الاسم هنا...">
         </div>
-        
         <div class="form-group">
-            <label>رقم الهاتف (مع المفتاح الدولي):</label>
-            <input type="tel" id="inputPhone" placeholder="9665xxxxxxxx">
+            <label>رقم الهاتف:</label>
+            <input type="tel" id="inputPhone" placeholder="9665xxxxxxxx" style="direction: ltr; text-align: right;">
         </div>
 
-        <div class="modal-footer">
+        <div style="text-align: left; margin-top: 20px;">
             <button class="btn btn-danger" onclick="closeModal('userModal')">إلغاء</button>
-            <button class="btn btn-primary" onclick="saveUser()">حفظ البيانات</button>
+            <button class="btn btn-primary" onclick="saveUser()">حفظ</button>
         </div>
     </div>
 </div>
 
 <div class="modal-overlay" id="previewModal">
-    <div class="modal" style="max-width: 700px;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-            <h2 style="margin:0;">جدول القراءة الشهري</h2>
-            <button class="btn btn-danger" onclick="closeModal('previewModal')" style="padding: 5px 10px;">x</button>
-        </div>
-        
-        <div id="previewContent">
-            <div style="background: #f9f9f9; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
-                <strong>الاسم:</strong> <span id="previewName"></span> <br>
-                <strong>الفترة:</strong> من <span id="previewStart"></span> إلى <span id="previewEnd"></span>
+    <div class="modal">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px;" data-html2canvas-ignore="true">
+            <div>
+                <button class="btn btn-pdf" onclick="downloadSchedulePDF()">⬇️ تحميل الجدول (PDF)</button>
+                <button class="btn btn-success" id="waMonthlyBtn">📱 إرسال واتساب</button>
             </div>
-
-            <div style="max-height: 300px; overflow-y: auto; border: 1px solid #eee;">
-                <table id="previewTable">
-                    <thead>
-                        <tr>
-                            <th>اليوم</th>
-                            <th>التاريخ</th>
-                            <th>رقم الجزء</th>
-                        </tr>
-                    </thead>
-                    <tbody id="previewBody"></tbody>
-                </table>
-            </div>
+            <button class="btn btn-danger" onclick="closeModal('previewModal')">إغلاق ×</button>
         </div>
 
-        <div class="modal-footer">
-            <button class="btn btn-pdf" onclick="downloadPreviewPDF()">📄 تحميل PDF</button>
-            <button class="btn btn-wa" id="btnWaMonthly">📱 إرسال الجدول واتساب</button>
+        <div id="previewContent" class="schedule-container">
+            <div class="schedule-header">
+                <h2>جدول الختمات اليومية لشهر رمضان المبارك</h2>
+                <div class="reader-name-box" id="scheduleReaderName">اسم القارئ</div>
+                <div style="margin-top: 5px; font-size: 0.9em;" id="scheduleDateRange"></div>
+            </div>
+
+            <table class="schedule-table">
+                <thead>
+                    <tr>
+                        <th width="5%">#</th>
+                        <th width="10%">الأسبوع</th>
+                        <th width="15%">اليوم</th>
+                        <th width="20%">التاريخ</th>
+                        <th width="15%">رقم الجزء</th>
+                    </tr>
+                </thead>
+                <tbody id="scheduleBody">
+                    </tbody>
+            </table>
+
+            <div class="schedule-footer">
+                <div class="footer-boxes">
+                    <div class="info-badge">يتم البدء بالجزء رقم: <span id="footerStartJuz"></span></div>
+                    <div class="info-badge">وينتهي بالجزء رقم: <span id="footerEndJuz"></span></div>
+                </div>
+                <div class="notes">
+                    * تبدأ الختمات بتاريخ <span id="noteStartDate"></span>.<br>
+                    * الجزء يقرأ من منتصف الليلة حتى منتصف الليلة التالية.<br>
+                    * "لكل شيء ربيع، وربيع القرآن شهر رمضان".
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <div class="modal-overlay" id="waModal">
-    <div class="modal" style="max-width: 400px; text-align: center;">
-        <h2>خيارات المراسلة</h2>
-        <p>ماذا تريد أن ترسل للقارئ؟</p>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-            <button class="btn btn-wa" onclick="sendWaDaily()">1. التذكير اليومي (الجزء الحالي)</button>
-            <button class="btn btn-outline" onclick="sendWaMonthlyText()">2. الجدول الكامل (نصياً)</button>
-            <button class="btn btn-danger" onclick="closeModal('waModal')" style="margin-top: 10px;">إلغاء</button>
+    <div class="modal" style="width: 350px; text-align: center;">
+        <h3 style="color:#25D366">إرسال عبر واتساب</h3>
+        <p>اختر نوع الرسالة:</p>
+        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
+            <button class="btn btn-success" onclick="sendWaDaily()">رسالة التذكير اليومي (الجزء الحالي)</button>
+            <button class="btn btn-primary" onclick="sendWaMonthlyText()">رسالة الجدول الكامل (نص)</button>
+            <button class="btn btn-danger" onclick="closeModal('waModal')">إلغاء</button>
         </div>
     </div>
 </div>
 
 <script>
-    // === المتغيرات العامة ===
+    // === المتغيرات ===
     let users = [];
     let startDate = new Date().toISOString().split('T')[0];
-    let selectedUserIndex = null; // لتخزين المؤشر عند فتح النوافذ
+    let selectedIndex = null;
 
-    // === دوال التهيئة والتحميل ===
+    // === التهيئة ===
     window.onload = function() {
-        const savedUsers = localStorage.getItem('khatma_users_v2');
-        const savedDate = localStorage.getItem('khatma_start_date_v2');
-
-        if (savedUsers) users = JSON.parse(savedUsers);
-        if (savedDate) startDate = savedDate;
-
-        document.getElementById('settingsStartDate').value = startDate;
-        updateDatesDisplay(); // تحديث عرض التواريخ في الهيدر
+        const sUsers = localStorage.getItem('quran_users_v3');
+        const sDate = localStorage.getItem('quran_start_date_v3');
+        
+        if (sUsers) users = JSON.parse(sUsers);
+        if (sDate) startDate = sDate;
+        
+        document.getElementById('globalStartDate').value = startDate;
+        updateHeaderDates();
         renderMainTable();
     };
 
     function saveData() {
-        localStorage.setItem('khatma_users_v2', JSON.stringify(users));
-        localStorage.setItem('khatma_start_date_v2', startDate);
+        localStorage.setItem('quran_users_v3', JSON.stringify(users));
+        localStorage.setItem('quran_start_date_v3', startDate);
+    }
+
+    // === التواريخ ===
+    function updateGlobalDate() {
+        startDate = document.getElementById('globalStartDate').value;
+        updateHeaderDates();
+        saveData();
         renderMainTable();
     }
 
-    // === دوال التواريخ ===
-    function getHijriDate(dateObj) {
-        return new Intl.DateTimeFormat('ar-SA-u-ca-islamic', {
-            day: 'numeric', month: 'long', year: 'numeric'
-        }).format(dateObj);
-    }
-
     function addDays(dateStr, days) {
-        const result = new Date(dateStr);
-        result.setDate(result.getDate() + days);
-        return result;
+        const d = new Date(dateStr);
+        d.setDate(d.getDate() + days);
+        return d;
     }
 
-    function updateDates() {
-        startDate = document.getElementById('settingsStartDate').value;
-        updateDatesDisplay();
-        saveData();
+    function getFormattedDate(dateObj) {
+        return dateObj.toLocaleDateString('ar-EG'); // يوم/شهر/سنة
     }
 
-    function updateDatesDisplay() {
+    function getDayName(dateObj) {
+        return dateObj.toLocaleDateString('ar-EG', { weekday: 'long' });
+    }
+
+    function updateHeaderDates() {
         const start = new Date(startDate);
-        const end = addDays(startDate, 29); // الختمة 30 يوم (0 إلى 29)
-
-        // الميلادي
-        document.getElementById('startDateDisplay').innerText = start.toLocaleDateString('ar-EG');
-        document.getElementById('endDateDisplay').innerText = end.toLocaleDateString('ar-EG');
-
-        // الهجري
-        document.getElementById('startDateHijri').innerText = getHijriDate(start);
-        document.getElementById('endDateHijri').innerText = getHijriDate(end);
+        const end = addDays(startDate, 29);
+        document.getElementById('headerStartDate').innerText = getFormattedDate(start);
+        document.getElementById('headerEndDate').innerText = getFormattedDate(end);
     }
 
-    // حساب الجزء بناءً على تاريخ البدء
-    function calculateJuz(userIndex, specificDate = new Date()) {
-        const start = new Date(startDate);
-        const current = new Date(specificDate);
-        
-        start.setHours(0,0,0,0);
-        current.setHours(0,0,0,0);
-
-        const diffTime = current - start;
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-        
-        // الأيام المنقضية (قد تكون بالسالب إذا لم تبدأ الختمة بعد)
-        const daysElapsed = diffDays > 0 ? diffDays : 0;
-
-        // المعادلة: (ترتيب الشخص + الأيام المنقضية) % 30 + 1
-        return ((userIndex + daysElapsed) % 30) + 1;
+    // === الحسابات ===
+    function calculateJuz(userIndex, dayOffset) {
+        // المعادلة: (ترتيب المستخدم + الأيام المنقضية) % 30
+        // نضيف 1 لأن النتيجة من 0-29 ونريد 1-30
+        return ((userIndex + dayOffset) % 30) + 1;
     }
 
-    // === دوال الجدول الرئيسي ===
+    // === الجدول الرئيسي ===
     function renderMainTable() {
         const tbody = document.getElementById('usersTableBody');
         tbody.innerHTML = '';
-
-        if (users.length === 0) {
-            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:20px;">لا يوجد قراء، اضغط على "إضافة قارئ جديد"</td></tr>';
-            return;
-        }
+        
+        // حساب اليوم الحالي بالنسبة لبداية الختمة
+        const today = new Date();
+        today.setHours(0,0,0,0);
+        const start = new Date(startDate);
+        start.setHours(0,0,0,0);
+        
+        const diffTime = today - start;
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        const currentDayOffset = diffDays > 0 ? diffDays : 0; // إذا لم تبدأ بعد، اعتبرها اليوم 0
 
         users.forEach((user, index) => {
-            const currentJuz = calculateJuz(index); // لليوم الحالي
-
+            const juz = calculateJuz(index, currentDayOffset);
+            
             const tr = document.createElement('tr');
             tr.innerHTML = `
                 <td>${index + 1}</td>
-                <td style="font-weight:bold;">${user.name}</td>
+                <td><strong>${user.name}</strong></td>
                 <td>${user.phone}</td>
-                <td><span class="juz-tag">الجزء ${currentJuz}</span></td>
-                <td class="action-cell" data-html2canvas-ignore="true">
-                    <button class="icon-btn" onclick="openPreview(${index})" title="معاينة الجدول"><span style="font-size:1.2em;">👁️</span></button>
-                    <button class="icon-btn" onclick="openWaModal(${index})" title="واتساب"><span style="font-size:1.2em;">📱</span></button>
-                    <button class="icon-btn" onclick="editUser(${index})" title="تعديل"><span style="font-size:1.2em;">✏️</span></button>
-                    <button class="icon-btn" onclick="deleteUser(${index})" style="color:red;" title="حذف"><span style="font-size:1.2em;">×</span></button>
+                <td><span class="juz-badge">جزء ${juz}</span></td>
+                <td data-html2canvas-ignore="true">
+                    <button class="btn btn-primary" style="padding:5px 10px" onclick="openPreview(${index})" title="معاينة الجدول">👁️ معاينة</button>
+                    <button class="btn btn-success" style="padding:5px 10px" onclick="openWaModal(${index})" title="واتساب">📱</button>
+                    <button class="btn btn-primary" style="padding:5px 10px; background:#f39c12; border:none;" onclick="editUser(${index})" title="تعديل">✎</button>
+                    <button class="btn btn-danger" style="padding:5px 10px" onclick="deleteUser(${index})" title="حذف">×</button>
                 </td>
             `;
             tbody.appendChild(tr);
         });
     }
 
-    // === إدارة المستخدمين (Modals) ===
+    // === إدارة المستخدمين ===
     function openAddModal() {
         document.getElementById('modalTitle').innerText = 'إضافة قارئ جديد';
         document.getElementById('inputName').value = '';
@@ -413,144 +460,157 @@
     function saveUser() {
         const name = document.getElementById('inputName').value;
         const phone = document.getElementById('inputPhone').value;
-        const index = parseInt(document.getElementById('editIndex').value);
+        const idx = parseInt(document.getElementById('editIndex').value);
 
-        if(!name) { alert('الاسم مطلوب'); return; }
+        if(!name) { alert('الرجاء كتابة الاسم'); return; }
 
-        if (index === -1) {
-            users.push({ name, phone });
-        } else {
-            users[index] = { name, phone };
-        }
-        
+        if (idx === -1) users.push({ name, phone });
+        else users[idx] = { name, phone };
+
         saveData();
+        renderMainTable();
         closeModal('userModal');
     }
 
     function deleteUser(index) {
-        if(confirm('هل أنت متأكد من حذف هذا القارئ؟')) {
+        if(confirm('حذف هذا القارئ؟')) {
             users.splice(index, 1);
             saveData();
+            renderMainTable();
         }
     }
 
-    function closeModal(modalId) {
-        document.getElementById(modalId).style.display = 'none';
-    }
-
-    // === وظائف المعاينة (30 يوم) ===
+    // === نافذة المعاينة (المنطق الأساسي للجدول المطور) ===
     function openPreview(index) {
-        selectedUserIndex = index;
+        selectedIndex = index;
         const user = users[index];
-        const tbody = document.getElementById('previewBody');
+        const tbody = document.getElementById('scheduleBody');
         tbody.innerHTML = '';
         
-        document.getElementById('previewName').innerText = user.name;
-        
-        // إعداد تواريخ الختمة الكاملة
-        const start = new Date(startDate);
-        const end = addDays(startDate, 29);
-        document.getElementById('previewStart').innerText = start.toLocaleDateString('ar-EG');
-        document.getElementById('previewEnd').innerText = end.toLocaleDateString('ar-EG');
+        // تعبئة بيانات الرأس
+        document.getElementById('scheduleReaderName').innerText = user.name;
+        const sDate = new Date(startDate);
+        const eDate = addDays(startDate, 29);
+        document.getElementById('scheduleDateRange').innerText = `${getFormattedDate(sDate)} م  -  ${getFormattedDate(eDate)} م`;
+        document.getElementById('noteStartDate').innerText = getFormattedDate(sDate);
 
-        // توليد 30 صف
-        for(let i=0; i<30; i++) {
+        // حساب أجزاء البداية والنهاية
+        const startJuz = calculateJuz(index, 0); // اليوم الأول
+        const endJuz = calculateJuz(index, 29);  // اليوم الثلاثون
+        document.getElementById('footerStartJuz').innerText = startJuz;
+        document.getElementById('footerEndJuz').innerText = endJuz;
+
+        // بناء الجدول
+        let weekCounter = 1;
+        const weekNames = ["الأسبوع الأول", "الأسبوع الثاني", "الأسبوع الثالث", "الأسبوع الرابع", "الأسبوع الخامس"];
+
+        for (let i = 0; i < 30; i++) {
             const rowDate = addDays(startDate, i);
-            // الجزء: يعتمد على ترتيب الشخص + رقم اليوم في الختمة
-            // المعادلة: (Index + DayNumber) % 30 + 1
-            const juz = ((index + i) % 30) + 1;
-            
+            const juz = calculateJuz(index, i);
             const tr = document.createElement('tr');
+
+            // منطق عمود الأسابيع (Rowspan)
+            // كل 7 أيام، ننشئ خلية تدمج 7 صفوف
+            let weekCellHTML = '';
+            if (i % 7 === 0) {
+                // حساب عدد الصفوف للدمج (آخر أسبوع قد يكون أقل من 7 إذا كان العدد الكلي ليس مضاعفاً لـ 7 بدقة، هنا 30 يوم)
+                // الأسبوع 1: 7 أيام، الأسبوع 2: 7، 3: 7، 4: 7، الأسبوع 5: 2 يومين (المجموع 30)
+                let span = 7;
+                if (i === 28) span = 2; // باقي يومين للـ 30
+
+                weekCellHTML = `<td rowspan="${span}" class="week-cell">${weekNames[weekCounter-1] || 'أخرى'}</td>`;
+                weekCounter++;
+            }
+
             tr.innerHTML = `
-                <td>اليوم ${i+1}</td>
-                <td>${rowDate.toLocaleDateString('ar-EG')} <br> <small style="color:#777">${getHijriDate(rowDate)}</small></td>
-                <td style="font-weight:bold; color:var(--primary);">الجزء ${juz}</td>
+                <td>${i + 1}</td>
+                ${weekCellHTML}
+                <td>${getDayName(rowDate)}</td>
+                <td>${getFormattedDate(rowDate)}</td>
+                <td style="font-weight:bold; font-size:1.1em; color:var(--primary);">${juz}</td>
             `;
             tbody.appendChild(tr);
         }
 
-        // إعداد زر الواتساب في نافذة المعاينة
-        document.getElementById('btnWaMonthly').onclick = function() {
-            selectedUserIndex = index;
+        // إعداد زر الواتساب
+        document.getElementById('waMonthlyBtn').onclick = function() {
+            selectedIndex = index;
             sendWaMonthlyText();
         };
 
         document.getElementById('previewModal').style.display = 'flex';
     }
 
-    // === وظائف الواتساب ===
+    // === التصدير والواتساب ===
+    function downloadSchedulePDF() {
+        const element = document.getElementById('previewContent');
+        const user = users[selectedIndex];
+        
+        const opt = {
+            margin:       5,
+            filename:     `جدول_${user.name}.pdf`,
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 }, // دقة عالية
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+        html2pdf().set(opt).from(element).save();
+    }
+
+    function exportMainTable() {
+        const element = document.getElementById('mainTableArea');
+        document.getElementById('dailyPdfHeader').style.display = 'block';
+        document.getElementById('dailyPdfDate').innerText = getFormattedDate(new Date());
+
+        const opt = {
+            margin: 10,
+            filename: 'قائمة_الختمة_اليومية.pdf',
+            image: { type: 'jpeg', quality: 0.98 },
+            html2canvas: { scale: 2 },
+            jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            document.getElementById('dailyPdfHeader').style.display = 'none';
+        });
+    }
+
     function openWaModal(index) {
-        selectedUserIndex = index;
+        selectedIndex = index;
         document.getElementById('waModal').style.display = 'flex';
     }
 
     function sendWaDaily() {
-        const user = users[selectedUserIndex];
-        const juz = calculateJuz(selectedUserIndex);
-        const today = new Date().toLocaleDateString('ar-EG');
+        const user = users[selectedIndex];
+        // حساب الجزء بناء على تاريخ اليوم الفعلي
+        const today = new Date(); today.setHours(0,0,0,0);
+        const start = new Date(startDate); start.setHours(0,0,0,0);
+        const diffDays = Math.ceil((today - start)/(1000*60*60*24));
+        const offset = diffDays > 0 ? diffDays : 0;
         
-        const text = `السلام عليكم ${user.name}،%0aوردك اليومي من القرآن الكريم:%0a📖 *الجزء ${juz}*%0aالتاريخ: ${today}`;
-        const url = `https://wa.me/${user.phone.replace(/[^0-9]/g,'')}?text=${text}`;
+        const juz = calculateJuz(selectedIndex, offset);
         
-        window.open(url, '_blank');
+        const text = `السلام عليكم ${user.name}،%0aوردك اليومي: *الجزء ${juz}*%0aبتاريخ: ${getFormattedDate(new Date())}`;
+        window.open(`https://wa.me/${user.phone.replace(/[^0-9]/g,'')}?text=${text}`, '_blank');
         closeModal('waModal');
     }
 
     function sendWaMonthlyText() {
-        const user = users[selectedUserIndex];
-        let text = `السلام عليكم ${user.name}،%0a🗓️ *جدول ختمة القرآن الكريم للشهر كاملاً:*%0a%0a`;
+        const user = users[selectedIndex];
+        let text = `*جدول الختمة القرآنية - ${user.name}*%0a%0a`;
         
-        // توليد النص للـ 30 يوم
         for(let i=0; i<30; i++) {
-            const rowDate = addDays(startDate, i);
-            const juz = ((selectedUserIndex + i) % 30) + 1;
-            const dateStr = rowDate.toLocaleDateString('en-GB', {day:'numeric', month:'numeric'});
-            text += `🔹 ${dateStr}: الجزء ${juz}%0a`;
+            const d = addDays(startDate, i);
+            const j = calculateJuz(selectedIndex, i);
+            text += `${i+1}. ${getDayName(d)} (${d.getDate()}/${d.getMonth()+1}): *جزء ${j}*%0a`;
         }
         
-        text += `%0aتقبل الله منا ومنكم.`;
-        
-        const url = `https://wa.me/${user.phone.replace(/[^0-9]/g,'')}?text=${text}`;
-        window.open(url, '_blank');
+        window.open(`https://wa.me/${user.phone.replace(/[^0-9]/g,'')}?text=${text}`, '_blank');
         closeModal('waModal');
-        closeModal('previewModal');
     }
 
-    // === وظائف الـ PDF ===
-    function exportTodayPDF() {
-        const element = document.getElementById('mainTableArea');
-        // إظهار الترويسة للطباعة
-        document.getElementById('pdfHeader').style.display = 'block';
-        document.getElementById('pdfDateLine').innerText = `التاريخ: ${new Date().toLocaleDateString('ar-EG')}`;
-
-        const opt = {
-            margin: 10,
-            filename: `جدول_الختمة_اليومي.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().set(opt).from(element).save().then(() => {
-            document.getElementById('pdfHeader').style.display = 'none';
-        });
+    function closeModal(id) {
+        document.getElementById(id).style.display = 'none';
     }
-
-    function downloadPreviewPDF() {
-        const user = users[selectedUserIndex];
-        const element = document.getElementById('previewContent'); // محتوى المعاينة فقط
-        
-        const opt = {
-            margin: 10,
-            filename: `جدول_الختمة_${user.name}.pdf`,
-            image: { type: 'jpeg', quality: 0.98 },
-            html2canvas: { scale: 2 },
-            jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-        };
-
-        html2pdf().set(opt).from(element).save();
-    }
-
 </script>
 
 </body>
